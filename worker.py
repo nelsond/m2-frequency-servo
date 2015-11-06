@@ -136,7 +136,7 @@ class WLWorker(QtCore.QObject):
 
                     if (current_value):
                         feedback = self.pid.tick(current_value)
-                        self.update_m2(feedback)
+                        self.update_m2(round(feedback,4))
 
                         # error in MHz (THz -> MHz: 1e6)
                         self.ticked.emit((current_value-self.pid.setpoint)*1e6, feedback)
