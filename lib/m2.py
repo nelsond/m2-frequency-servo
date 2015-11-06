@@ -2,7 +2,7 @@ import socket, json, random
 
 class M2:
     def __init__(self, addr):
-        self.socket = socket.create_connection(addr, timeout=0.5)
+        self.socket = socket.create_connection(addr, timeout=5)
         self.interface = self.socket.getsockname()[0]
         self.transmission_id = 0
 
