@@ -39,7 +39,7 @@ class WLMainWidget(QtGui.QWidget):
         self.worker_thread.wait()
 
     def init_ui(self):
-        self.setMinimumHeight(730)
+        self.setMinimumHeight(790)
 
         grid = QtGui.QGridLayout()
         grid.setContentsMargins(15, 15, 15, 15)
@@ -80,7 +80,7 @@ class WLMainWidget(QtGui.QWidget):
         pid_tab.i_gain_slider.changed.connect(self.update_config)
         pid_tab.d_gain_slider.changed.connect(self.update_config)
         pid_tab.gain_spin_box.valueChanged.connect(self.update_config)
-
+        pid_tab.polarity_checkbox.stateChanged.connect(self.update_config)
         m2_tab.resonator_group.max_spin_box.valueChanged.connect(self.update_config)
         m2_tab.resonator_group.min_spin_box.valueChanged.connect(self.update_config)
         m2_tab.resonator_group.center_spin_box.valueChanged.connect(self.update_config)
@@ -130,6 +130,7 @@ class WLMainWidget(QtGui.QWidget):
         pid_config['P'] = float(pid_tab.p_gain_slider.value())
         pid_config['I'] = float(pid_tab.i_gain_slider.value())
         pid_config['D'] = float(pid_tab.d_gain_slider.value())
+        pid_config['output_polarity'] = int(1 if pid_tab.polarity_checkbox.isChecked() else -1)
 
         m2_config['ip_address'] = str(m2_tab.networking_group.ip_address_line_edit.text())
         m2_config['port']       = int(m2_tab.networking_group.port_line_edit.text())
@@ -167,6 +168,7 @@ class WLMainWidget(QtGui.QWidget):
         pid_P_value = float(pid_config['P'])
         pid_I_value = float(pid_config['I'])
         pid_D_value = float(pid_config['D'])
+        pid_polarity_value = int(pid_config['output_polarity'])
 
         m2_ip_address_value = m2_config['ip_address']
         m2_port_value       = str(m2_config['port'])
@@ -179,6 +181,7 @@ class WLMainWidget(QtGui.QWidget):
         pid_tab.p_gain_slider.setValue(pid_P_value)
         pid_tab.i_gain_slider.setValue(pid_I_value)
         pid_tab.d_gain_slider.setValue(pid_D_value)
+        pid_tab.polarity_checkbox.setCheckState(QtCore.Qt.Checked if pid_polarity_value == 1 else QtCore.Qt.Unchecked)
 
         m2_tab.networking_group.ip_address_line_edit.setText(m2_ip_address_value)
         m2_tab.networking_group.port_line_edit.setText(m2_port_value)

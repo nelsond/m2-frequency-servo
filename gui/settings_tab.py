@@ -165,11 +165,6 @@ class WLPIDSettingsTab(QtGui.QWidget):
                 suffix='s')
         vbox.addWidget(self.sampling_interval_slider)
 
-        sampling_interval_label = QtGui.QLabel('Sampling interval of PID loop filter')
-        sampling_interval_label.setDisabled(True)
-        sampling_interval_label.setAlignment(QtCore.Qt.AlignCenter)
-        vbox.addWidget(sampling_interval_label)
-
         vbox.addSpacing(20)
 
         self.p_gain_slider = SliderWithDisplayWidget('P:',
@@ -187,6 +182,16 @@ class WLPIDSettingsTab(QtGui.QWidget):
                 minimum=0, maximum=1)
         vbox.addWidget(self.d_gain_slider)
 
+        vbox.addSpacing(20)
+
+        polarity_widget = QtGui.QWidget()
+        phbox = QtGui.QHBoxLayout()
+        phbox.setAlignment(QtCore.Qt.AlignCenter)
+        polarity_widget.setLayout(phbox)
+        self.polarity_checkbox = QtGui.QCheckBox('Flip Output Polarity')
+        phbox.addWidget(self.polarity_checkbox)
+
+        vbox.addWidget(polarity_widget)
         vbox.addStretch(2)
 
 

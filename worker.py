@@ -23,6 +23,7 @@ class WLWorker(QtCore.QObject):
         self.state       = self.WORKING_STATE
 
         self.pid = PID()
+        self.pid_output_polarity = -1.
 
         self.load_config()
 
@@ -87,16 +88,20 @@ class WLWorker(QtCore.QObject):
 
         wlm_channel  = self.config['wlm']['channel']
 
+        output_polarity = self.config['pid']['output_polarity']
+
         self.pid.setpoint     = setpoint
         self.pid.min_max      = min_max
         self.pid.offset       = offset
         self.pid.set_params(sampling_interval=self.sampling_interval,
-                overall_gain = overall_gain*-1,
+                overall_gain = overall_gain*output_polarity,
                 prop_gain=prop_gain,
                 int_gain=int_gain,
                 diff_gain=diff_gain)
 
         self.wlm_channel = wlm_channel
+
+        self.pid_output_polarity = output_polarity
 
     def exit(self):
         if (self.m2): self.m2.close_connection()
