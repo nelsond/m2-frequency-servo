@@ -3,13 +3,13 @@ from PyQt4 import QtGui, QtCore, Qt
 from PyQt4.QtCore import pyqtSlot, pyqtSignal
 import pyqtgraph as pg
 from collections import deque
-from . import SaveFileSelectWidget
+from widgets import SaveFileSelectWidget
 
-class RingBufferGraphLoggingWorker(QtCore.QObject):
+class WLGraphLoggingWorker(QtCore.QObject):
     logging_line_added = pyqtSignal(str)
 
     def __init__(self, parent=None):
-        super(RingBufferGraphLoggingWorker, self).__init__(parent)
+        super(WLGraphLoggingWorker, self).__init__(parent)
 
         self.logging_file_path = ''
         self.logging_line_added.connect(self.flush_logging_line)
@@ -32,9 +32,9 @@ class RingBufferGraphLoggingWorker(QtCore.QObject):
             f.write('%s\n' % line)
             f.close()
 
-class RingBufferGraphWidget(QtGui.QWidget):
+class WLGraph(QtGui.QWidget):
     def __init__(self, buffer_length=100, parent=None):
-        super(RingBufferGraphWidget, self).__init__(parent)
+        super(WLGraph, self).__init__(parent)
 
         self.buffer_length = buffer_length
         self.rbuffer = deque(maxlen=buffer_length)
@@ -46,7 +46,7 @@ class RingBufferGraphWidget(QtGui.QWidget):
         self.toggle_logging(0)
 
         self.worker_thread = QtCore.QThread(self)
-        self.worker = RingBufferGraphLoggingWorker()
+        self.worker = WLGraphLoggingWorker()
         self.worker.moveToThread(self.worker_thread)
         self.worker_thread.start()
 

@@ -1,6 +1,4 @@
-import socket
-import json
-import random
+import socket, json, random
 
 class M2:
     def __init__(self, addr):

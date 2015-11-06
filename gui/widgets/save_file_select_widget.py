@@ -2,12 +2,12 @@ import os
 from PyQt4 import QtGui, QtCore, Qt
 from PyQt4.QtCore import pyqtSlot, pyqtSignal
 
-class FileSelectWidget(QtGui.QWidget):
+class SaveFileSelectWidget(QtGui.QWidget):
 
     changed = pyqtSignal(str)
 
     def __init__(self, description='', parent=None):
-        super(FileSelectWidget, self).__init__(parent)
+        super(SaveFileSelectWidget, self).__init__(parent)
 
         self.description = description
         self.selected_file_path = None
@@ -43,7 +43,7 @@ class FileSelectWidget(QtGui.QWidget):
 
     @pyqtSlot()
     def browse_file(self):
-        file_path = str(QtGui.QFileDialog.getOpenFileName(self.parent(), 'Select File', self.last_folder_path))
+        file_path = str(QtGui.QFileDialog.getSaveFileName(self.parent(), 'Save File', self.last_folder_path))
 
         if (len(file_path) > 0):
             self.set_file_path(file_path)
