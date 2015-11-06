@@ -1,3 +1,8 @@
+build
+*.spec
+*.exe
+*.pdf
+*.swp
 *.pyc
 *.py~
 config.json
