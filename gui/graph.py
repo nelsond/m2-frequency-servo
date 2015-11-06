@@ -50,9 +50,9 @@ class WLGraph(QtGui.QWidget):
         self.worker.moveToThread(self.worker_thread)
         self.worker_thread.start()
 
-    def __del__(self):
-        self.worker_thread.quit()
-        self.worker_thread.wait()
+    #def __del__(self):
+        #self.worker_thread.quit()
+        #self.worker_thread.wait()
 
     def init_ui(self):
         vbox = QtGui.QVBoxLayout()

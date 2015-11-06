@@ -38,6 +38,9 @@ class WLMainWidget(QtGui.QWidget):
         self.worker_thread.quit()
         self.worker_thread.wait()
 
+        self.graph.worker_thread.quit()
+        self.graph.worker_thread.wait()
+
     def init_ui(self):
         self.setMinimumHeight(790)
 
