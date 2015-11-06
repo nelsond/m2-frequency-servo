@@ -60,6 +60,8 @@ class WLGraph(QtGui.QWidget):
         self.setLayout(vbox)
 
         self.plot_widget = pg.PlotWidget()
+        self.plot_widget.hideAxis('bottom')
+        self.plot_widget.setLabel('left', units='Hz')
         self.plot_curve = self.plot_widget.plot(pen='w')
         self.plot_curve.setData(x=range(self.buffer_length))
         vbox.addWidget(self.plot_widget)

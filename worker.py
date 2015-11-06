@@ -143,8 +143,8 @@ class WLWorker(QtCore.QObject):
                         feedback = self.pid.tick(current_value)
                         self.update_m2(round(feedback,4))
 
-                        # error in MHz (THz -> MHz: 1e6)
-                        self.ticked.emit((current_value-self.pid.setpoint)*1e6, feedback)
+                        # error in Hz (THz -> Hz: 1e12)
+                        self.ticked.emit((current_value-self.pid.setpoint)*1e12, feedback)
 
                 self.state = self.SLEEPING_STATE
 
