@@ -1,10 +1,10 @@
-from PID import PID
+from pid import PID
 
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.widgets import Slider
 
-pid = PID(prop_gain=0.88, int_gain=0.02, diff_gain=0.0)
+pid = PID(sampling_interval=0.01, prop_gain=0.88, int_gain=0.02, diff_gain=0.0)
 def time_response(setpoints):
     pid.reset()
 
@@ -23,7 +23,7 @@ def time_response(setpoints):
 
 # --
 
-n = 500
+n = 2000
 setpoints = np.ones(n)
 setpoints[0:(n/2-1)] = 0.
 
@@ -40,15 +40,18 @@ response_line, = ax.plot(tt, step_response, 'k', linewidth=2)
 ax.set_xlabel('Time [steps]')
 
 def update_prop_gain(val):
-    pid.prop_gain = val
+    pid.set_params(prop_gain=val)
+    pid.reset()
     response_line.set_ydata(time_response(setpoints))
 
 def update_int_gain(val):
-    pid.int_gain = val
+    pid.set_params(int_gain=val)
+    pid.reset()
     response_line.set_ydata(time_response(setpoints))
 
 def update_diff_gain(val):
-    pid.diff_gain = val
+    pid.set_params(diff_gain=val)
+    pid.reset()
     response_line.set_ydata(time_response(setpoints))
 
 prop_gain_slider = Slider(
@@ -61,7 +64,7 @@ int_gain_slider = Slider(
 
 diff_gain_slider = Slider(
         plt.axes([0.4 + 0.4 - 0.125, 0.075, 0.2, 0.05]),
-        'D', 0, 1, valinit=0)
+        'D', 0, 0.01, valinit=0)
 
 prop_gain_slider.on_changed(update_prop_gain)
 int_gain_slider.on_changed(update_int_gain)

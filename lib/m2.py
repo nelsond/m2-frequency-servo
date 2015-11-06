@@ -3,19 +3,17 @@ import json
 import random
 
 class M2:
-    def __init__(self, addr, interface=False):
-        self.socket = socket.create_connection(addr)
+    def __init__(self, addr):
+        self.socket = socket.create_connection(addr, timeout=0.5)
+        self.interface = self.socket.getsockname()[0]
         self.transmission_id = 0
 
-        if (interface):
-            self.connect_from(interface)
-
-    def connect_from(self, interface):
+    def start_connection(self):
         response_message = self.send_message(
             op= 'start_link',
-            params= { 'ip_address': interface })
+            params= { 'ip_address': self.interface })
 
-        return response_message.is_ok(status="ok")
+        return response_message.is_ok(status='ok')
 
     def set(self, setting, value):
         response_message = self.send_message(
@@ -25,7 +23,10 @@ class M2:
         return response_message.is_ok(status=[0])
 
     def close_connection(self):
-        self.socket.close()
+        try:
+            self.socket.close()
+        except:
+            pass
 
         return True
 
@@ -72,8 +73,3 @@ class M2Message:
             return self.params['status'] == status
         else:
             return None
-
-if __name__ == "__main__":
-    m2 = M2(('128.138.107.135', 39933))
-    print m2.connect_from('128.138.107.134')
-    print m2.set('tune_resonator', 50.0)
