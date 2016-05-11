@@ -41,7 +41,7 @@ class PID:
             'b_1': i*T - d*4./T,
             'b_2': i*T/2. - p + d*2./T,
             'a_1': 0.,
-            'a_2': -1.
+            'a_2': 1.
         }
 
     def tick(self, current_value=False):
